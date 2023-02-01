@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/apps\\flutter_bilibili/melos_flutter_bilibili.iml" filepath="$PROJECT_DIR$/apps\\flutter_bilibili/melos_flutter_bilibili.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages\\vt_utils/melos_vt_utils.iml" filepath="$PROJECT_DIR$/packages\\vt_utils/melos_vt_utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_modular.iml" filepath="$PROJECT_DIR$/melos_modular.iml" />
+    </modules>
+  </component>
+</project>

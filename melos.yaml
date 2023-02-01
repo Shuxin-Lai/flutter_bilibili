@@ -1,0 +1,14 @@
+name: modular
+
+packages:
+  - apps/**
+  - packages/**
+scripts:
+  formatting:check: melos exec -- dart format --set-exit-if-changed .
+
+  analyze: melos exec -- dart analyze --fatal-infos
+
+  run:app:
+    run: melos exec -- flutter run lib/main.dart
+    select-package:
+      scope: 'flutter_bilibili'
