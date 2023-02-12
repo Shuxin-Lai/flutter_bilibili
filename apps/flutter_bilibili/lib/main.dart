@@ -4,6 +4,7 @@ import 'package:flutter_bilibili/constants/loggers.dart';
 import 'package:flutter_bilibili/constants/tokens.dart';
 import 'package:flutter_bilibili/providers/locale_provider.dart';
 import 'package:flutter_bilibili/providers/theme_provider.dart';
+import 'package:flutter_bilibili/router/router.dart';
 import 'package:flutter_bilibili/themes/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:vt_utils/vt_utils.dart';
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<ThemeProvider>();
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       themeMode: provider.themeMode,
       darkTheme: Themes.darkTheme,
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routerConfig: router,
     );
   }
 }
