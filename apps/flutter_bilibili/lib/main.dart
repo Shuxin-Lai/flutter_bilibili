@@ -1,18 +1,35 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bilibili/constants/tokens.dart';
+import 'package:flutter_bilibili/providers/locale_provider.dart';
 import 'package:flutter_bilibili/providers/theme_provider.dart';
 import 'package:flutter_bilibili/themes/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:vt_utils/sp_util.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => LocaleProvider(),
+        ),
       ],
-      child: const MyApp(),
+      child: EasyLocalization(
+        supportedLocales: const [Locale('en', 'US'), Locale('zh', 'CN')],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: const Locale('en', 'US'),
+        child: MyApp(
+          key: appGlobalKey,
+        ),
+      ),
     ),
   );
 }
@@ -30,6 +47,9 @@ class MyApp extends StatelessWidget {
       themeMode: provider.themeMode,
       darkTheme: Themes.darkTheme,
       theme: Themes.lightTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -111,6 +131,28 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            Text('str: ${tr('hello.world', namedArgs: {'num': '1'})}'),
+            Text(
+                'locale: ${context.locale.toString()}, ${context.locale.languageCode.toString()}'),
+            ElevatedButton(
+              onPressed: () {
+                final ctx = appGlobalKey.currentContext;
+                print('ctx: ');
+                print(ctx);
+                if (ctx != null) {
+                  print('locale: ${ctx.locale.languageCode.toString()}');
+                }
+              },
+              child: const Text('key'),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  final ctx = context.read<LocaleProvider>();
+                  final code = ctx.isEn ? 'zh' : 'en';
+                  ctx.setLocaleByLanguageCode(code);
+                  print('ctx: ${ctx.currentLocale}');
+                },
+                child: const Text('change locale'))
           ],
         ),
       ),

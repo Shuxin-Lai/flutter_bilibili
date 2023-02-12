@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bilibili/constants/constatns.dart';
 import 'package:vt_utils/vt_utils.dart';
