@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bilibili/providers/theme_provider.dart';
+import 'package:flutter_bilibili/themes/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:vt_utils/sp_util.dart';
-import 'package:vt_utils/themes/vt_theme.dart';
 
 void main() {
   runApp(
@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       themeMode: provider.themeMode,
-      darkTheme: VtTheme.darkTheme,
-      theme: provider.theme,
+      darkTheme: Themes.darkTheme,
+      theme: Themes.lightTheme,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

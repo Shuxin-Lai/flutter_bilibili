@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bilibili/constants/constatns.dart';
-import 'package:vt_utils/themes/vt_theme.dart';
 import 'package:vt_utils/vt_utils.dart';
 
 class ThemeProvider with ChangeNotifier {
@@ -16,11 +15,6 @@ class ThemeProvider with ChangeNotifier {
   }
 
   ThemeMode get themeMode => _themeMode;
-  ThemeData get theme {
-    return _themeMode == ThemeMode.dark
-        ? VtTheme.darkTheme
-        : VtTheme.lightTheme;
-  }
 
   String get themeModeValue {
     switch (_themeMode) {
