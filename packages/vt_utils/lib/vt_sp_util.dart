@@ -13,18 +13,18 @@ import 'package:synchronized/synchronized.dart';
  * @Description: Sp Util.
  */
 /// SharedPreferences Util.
-class SpUtil {
-  static SpUtil? _singleton;
+class VtSpUtils {
+  static VtSpUtils? _singleton;
   static SharedPreferences? _prefs;
   static Lock _lock = Lock();
 
-  static Future<SpUtil?> getInstance() async {
+  static Future<VtSpUtils?> getInstance() async {
     if (_singleton == null) {
       await _lock.synchronized(() async {
         if (_singleton == null) {
           // keep local instance till it is fully initialized.
           // 保持本地实例直到完全初始化。
-          var singleton = SpUtil._();
+          var singleton = VtSpUtils._();
           await singleton._init();
           _singleton = singleton;
         }
@@ -33,7 +33,7 @@ class SpUtil {
     return _singleton;
   }
 
-  SpUtil._();
+  VtSpUtils._();
 
   Future _init() async {
     _prefs = await SharedPreferences.getInstance();

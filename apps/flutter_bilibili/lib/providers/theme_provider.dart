@@ -5,7 +5,7 @@ import 'package:vt_utils/vt_utils.dart';
 class ThemeProvider with ChangeNotifier {
   var _themeMode = ThemeMode.system;
   ThemeProvider() {
-    final themeValue = SpUtil.getString(Constants.spThemeValue);
+    final themeValue = VtSpUtils.getString(Constants.spThemeValue);
     if (themeValue == 'light') {
       _themeMode = ThemeMode.light;
     } else if (themeValue == 'dart') {
@@ -34,7 +34,7 @@ class ThemeProvider with ChangeNotifier {
     }
 
     _themeMode = themeMode;
-    SpUtil.putString(Constants.spThemeValue, _themeMode.toString());
+    VtSpUtils.putString(Constants.spThemeValue, _themeMode.toString());
     notifyListeners();
   }
 }

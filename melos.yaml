@@ -12,3 +12,5 @@ scripts:
     run: melos exec --  flutter run --debug -d emulator-5554
     select-package:
       scope: 'flutter_bilibili'
+dependencies:
+  logger: ^1.1.0

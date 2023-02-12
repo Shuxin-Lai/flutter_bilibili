@@ -1,15 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bilibili/constants/loggers.dart';
 import 'package:flutter_bilibili/constants/tokens.dart';
 import 'package:flutter_bilibili/providers/locale_provider.dart';
 import 'package:flutter_bilibili/providers/theme_provider.dart';
 import 'package:flutter_bilibili/themes/themes.dart';
 import 'package:provider/provider.dart';
-import 'package:vt_utils/sp_util.dart';
+import 'package:vt_utils/vt_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
+
+  logger.v('bootstrap');
+  await Future.wait([
+    EasyLocalization.ensureInitialized(),
+    VtSpUtils.getInstance(),
+  ]);
+
+  FlutterError.onError = (details) {
+    logger.e(
+      'unhandled error: $details',
+      details.exception,
+      details.stack,
+    );
+  };
 
   runApp(
     MultiProvider(
@@ -78,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      SpUtil.getSp();
+      VtSpUtils.getSp();
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
