@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bilibili/router/router.dart';
 import 'package:go_router/go_router.dart';
@@ -20,14 +21,15 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Container(
-            child: Text('home'),
+            child: Text(tr('hello.world')),
           ),
           TextField(
             controller: _controller,
           ),
           ElevatedButton(
               onPressed: () {
-                routerPush(name: 'demo', params: {'id': _controller.text});
+                // routerPush(name: 'demo', params: {'id': _controller.text});
+                context.setLocale(Locale('zh', 'CN'));
               },
               child: const Text("demo"))
         ],
