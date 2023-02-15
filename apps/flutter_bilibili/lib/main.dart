@@ -11,7 +11,7 @@ import 'package:vt_utils/vt_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  VtLogger.initialize();
+  VtLogger.ensureIntialized();
 
   VtLogger.verbose('bootstrap');
   await Future.wait([

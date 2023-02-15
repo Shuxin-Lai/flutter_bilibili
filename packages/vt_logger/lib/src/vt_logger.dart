@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 class VtLogger {
   static Logger? _logger;
 
-  static Logger initialize([PrettyPrinter? printer]) {
+  static Logger ensureIntialized([PrettyPrinter? printer]) {
     // ignore: unnecessary_null_comparison
     if (_logger != null) {
       return _logger!;
