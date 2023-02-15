@@ -1,28 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bilibili/constants/loggers.dart';
 import 'package:flutter_bilibili/constants/tokens.dart';
 import 'package:flutter_bilibili/providers/locale_provider.dart';
 import 'package:flutter_bilibili/providers/theme_provider.dart';
 import 'package:flutter_bilibili/router/router.dart';
 import 'package:flutter_bilibili/themes/themes.dart';
 import 'package:provider/provider.dart';
+import 'package:vt_logger/vt_logger.dart';
 import 'package:vt_utils/vt_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  VtLogger.initialize();
 
-  logger.v('bootstrap');
+  VtLogger.verbose('bootstrap');
   await Future.wait([
     EasyLocalization.ensureInitialized(),
     VtSpUtils.getInstance(),
   ]);
 
   FlutterError.onError = (details) {
-    logger.e(
+    VtLogger.error(
       'unhandled error: $details',
-      details.exception,
-      details.stack,
+      error: details.exception,
+      stackTrace: details.stack,
     );
   };
 
