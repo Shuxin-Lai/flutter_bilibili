@@ -33,6 +33,8 @@ dependencies:
     sdk: flutter
   vt_logger:
     path: ../../packages/vt_logger
+  vt_http:
+    path: ../../packages/vt_http
   vt_utils:
     path: ../../packages/vt_utils
 
