@@ -35,7 +35,7 @@ final homeRoute = MyRoute(
   path: '/',
   name: 'home',
   appTitle: 'Home',
-  builder: (context, state) => const HomePage(),
+  builder: (context, state) => HomePage(),
 );
 final profileRoute = MyRoute(
   path: '/profile',

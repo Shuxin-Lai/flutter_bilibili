@@ -1,15 +1,64 @@
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bilibili/models/tab_item.dart';
 import 'package:flutter_bilibili/providers/tab_provider.dart';
 import 'package:flutter_bilibili/router/router.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({
+class HomePage extends StatefulWidget {
+  HomePage({
     super.key,
   });
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _controller = ScrollController();
+  var _count = 10;
+  var _isLoading = false;
+
+  Future _loadMore() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    Future.delayed(Duration(seconds: 4)).whenComplete(() {
+      setState(() {
+        _isLoading = false;
+        _count = _count * 2;
+      });
+      print('loading more');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      if (_controller.position.userScrollDirection != ScrollDirection.reverse) {
+        return;
+      }
+
+      final maxOffset = _controller.position.maxScrollExtent;
+      final offset = _controller.offset.abs();
+      print('offset: ' + offset.toString());
+      if (offset + 200 > maxOffset) {
+        _loadMore();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,28 +90,69 @@ class HomePage extends StatelessWidget {
 
   Widget _buildMainContent(BuildContext context) {
     final provider = Provider.of<TabProvider>(context);
-    return TabBarView(
-      children: provider.tabList.map((e) => _buildTabView(e)).toList(),
-    );
+    return LayoutBuilder(builder: ((p0, p1) {
+      return ConstrainedBox(
+        constraints:
+            BoxConstraints(minHeight: p1.maxHeight, maxHeight: p1.maxHeight),
+        child: TabBarView(
+          children: provider.tabList.map((e) => _buildTabView(e)).toList(),
+        ),
+      );
+    }));
   }
 
   Widget _buildTabView(TabItem e) {
-    final child = GridView.builder(
-      itemCount: 20,
-      itemBuilder: (context, index) {
-        return Container(
-          height: 50,
-          color: Colors.primaries[(index + e.id) % Colors.primaries.length],
-          child: Text(e.title),
-        );
-      },
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-      ),
+    return Refresh(
+        child: CustomScrollView(
+      controller: _controller,
+      slivers: [
+        SliverToBoxAdapter(
+          child: Container(
+            height: 200,
+            color: Colors.blueGrey,
+            child: Text('banner'),
+          ),
+        ),
+        SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Container(
+                height: 50,
+                color:
+                    Colors.primaries[(index + e.id) % Colors.primaries.length],
+                child: Text('${e.title}: $index'),
+              );
+            },
+            childCount: _count,
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 8.0,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: _buildLoadMore(),
+        ),
+      ],
+    ));
+  }
+
+  Widget _buildLoadMore() {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      child: _isLoading
+          ? const SizedBox(
+              height: 80,
+              child: Center(
+                child: SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(),
+                ),
+              ))
+          : const SizedBox(),
     );
-    return Refresh(child: child);
   }
 
   Widget _buildTabBar(BuildContext context) {
