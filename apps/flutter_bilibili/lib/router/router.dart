@@ -1,5 +1,7 @@
 import 'package:flutter_bilibili/pages/demo_page.dart';
 import 'package:flutter_bilibili/pages/home_page.dart';
+import 'package:flutter_bilibili/pages/message_page.dart';
+import 'package:flutter_bilibili/pages/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
 typedef RouterFn = void Function({
@@ -35,6 +37,22 @@ final homeRoute = MyRoute(
   appTitle: 'Home',
   builder: (context, state) => const HomePage(),
 );
+final profileRoute = MyRoute(
+  path: '/profile',
+  name: 'profile',
+  appTitle: 'Profile',
+  builder: (context, state) {
+    return const ProfilePage();
+  },
+);
+final messagePage = MyRoute(
+  path: '/message',
+  name: 'message',
+  appTitle: 'Message',
+  builder: (context, state) {
+    return const MessagePage();
+  },
+);
 final demoRoute = MyRoute(
   path: '/demo/:id',
   name: 'demo',
@@ -48,6 +66,8 @@ final demoRoute = MyRoute(
 final router = GoRouter(
   routes: [
     homeRoute,
+    profileRoute,
+    messagePage,
     demoRoute,
   ],
 );
@@ -95,3 +115,8 @@ RouterFn _g(String methodName) {
 final routerGo = _g('go');
 final routerPush = _g('push');
 final routerReplace = _g('push');
+void routerPop() {
+  if (router.canPop()) {
+    router.pop();
+  }
+}

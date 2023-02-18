@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bilibili/constants/tokens.dart';
 import 'package:flutter_bilibili/providers/locale_provider.dart';
+import 'package:flutter_bilibili/providers/tab_provider.dart';
 import 'package:flutter_bilibili/providers/theme_provider.dart';
 import 'package:flutter_bilibili/router/router.dart';
 import 'package:flutter_bilibili/themes/themes.dart';
@@ -11,7 +12,7 @@ import 'package:vt_utils/vt_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  VtLogger.ensureIntialized();
+  VtLogger.ensureInitialized();
 
   VtLogger.verbose('bootstrap');
   await Future.wait([
@@ -35,6 +36,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => LocaleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TabProvider(),
         ),
       ],
       child: EasyLocalization(
@@ -60,6 +64,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       themeMode: provider.themeMode,
       darkTheme: Themes.darkTheme,
       theme: Themes.lightTheme,
